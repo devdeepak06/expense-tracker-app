@@ -14,23 +14,23 @@ const app = express();
 const port = 3000;
 connectDB();
 
-const allowedOrigins = [
-  "https://expense-tracker-app-jade.vercel.app"
-  // add more origins as needed
-];
+// const allowedOrigins = [
+//   "https://expense-tracker-app-jade.vercel.app"
+//   // add more origins as needed
+// ];
 
 // Middleware
 app.use(express.json());
-// app.use(cors());
+app.use(cors());
 
-app.use(
-  cors({
-    origin: allowedOrigins,
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization"],
-  })
-);
+// app.use(
+//   cors({
+//     origin: allowedOrigins,
+//     credentials: true,
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+//     allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization"],
+//   })
+// );
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("dev"));
