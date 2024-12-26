@@ -12,7 +12,8 @@ const port = 3000;
 connectDB();
 
 const allowedOrigins = [
-  "https://expense-tracker-app-jade.vercel.app"
+  "https://expense-tracker-app-jade.vercel.app",
+  "http://localhost:3002"
   // add more origins as needed
 ];
 
