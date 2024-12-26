@@ -1,6 +1,6 @@
 // ../../utils/ApiRequest.js
-const host = "http://localhost:3000";
-// const host = "https://expense-tracker-app-cz11.vercel.app";
+// const host = "http://localhost:3000";
+const host = "https://expense-tracker-app-cz11.vercel.app";
 export const setAvatarAPI = `${host}/api/auth/setAvatar`;
 export const registerAPI = `${host}/api/auth/register`;
 export const loginAPI = `${host}/api/auth/login`;

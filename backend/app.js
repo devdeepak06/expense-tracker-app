@@ -41,6 +41,9 @@ app.use("/api/auth", userRoutes);
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
+app.get("https://expense-tracker-app-cz11.vercel.app/", (req, res) => {
+  res.send("Hello World!");
+});
 
 app.listen(port, () => {
   console.log(`Server is listening on http://localhost:${port}`);
