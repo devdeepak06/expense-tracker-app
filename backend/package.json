@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "nodemon app.js",
     "start": "node app.js",
-    "build": "node --version && echo 'Build completed!'",
+    "build": "npm run build --output public",
     "vercel-build": "npm run build"
   },
   "dependencies": {
