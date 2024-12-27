@@ -22,7 +22,7 @@ app.use(
     origin: allowedOrigins,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: ["Content-Type", "Authorization"]
   })
 );
 
@@ -32,11 +32,11 @@ app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// Routers
 app.use("/api/v1", transactionRoutes);
 app.use("/api/auth", userRoutes);
 app.get("/", (req, res) => {
   res.send("Hello World!");
+  console.log(req.headers)
 });
 if (process.env.NODE_ENV !== "production") {
   app.listen(port, () => {
