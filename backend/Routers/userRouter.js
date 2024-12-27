@@ -16,8 +16,8 @@ const loginLimiter = rateLimit({
 });
 
 router.post("/register", registerControllers);
-router.post('/login', loginLimiter, loginControllers);
-// router.post("/login", loginControllers);
+// router.post('/login', loginLimiter, loginControllers);
+router.post("/login", loginControllers);
 router.put("/set-avatar/:id", setAvatarController);
 router.get("/all/:id", allUsers);
 
