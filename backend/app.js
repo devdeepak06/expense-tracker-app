@@ -29,6 +29,12 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   })
 );
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', allowedOrigins.join(', '));
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
 
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
@@ -39,6 +45,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Routers
 app.use("/api/v1", transactionRoutes);
 app.use("/api/auth", userRoutes);
+app.get('/api/auth/login', (req, res) => {
+  console.log('CORS Request received for /api/auth/login');
+
+  res.setHeader('Access-Control-Allow-Origin', allowedOrigins.join(', '));
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+  res.json({ message: 'Login successful' });
+});
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
