@@ -12,6 +12,7 @@ config();
 const app = express();
 const port = process.env.PORT;
 
+// Connect to the database
 connectDB();
 
 // Define allowed origins
@@ -21,19 +22,17 @@ const allowedOrigins = [
 ];
 
 // CORS configuration
-app.use(express.json());
-app.use(
-  cors({
-    origin: allowedOrigins,
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  })
-);
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', allowedOrigins.join(', '));
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  next();
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ['Content-Type', 'Authorization'] // Ensure required headers are allowed
+}));
+
+// Logging CORS requests for /api/auth/login
+app.get('/api/auth/login', (req, res) => {
+  console.log('CORS Request received for /api/auth/login');
+  res.json({ message: 'Login successful' });
 });
 
 app.use(helmet());
@@ -45,15 +44,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Routers
 app.use("/api/v1", transactionRoutes);
 app.use("/api/auth", userRoutes);
-app.get('/api/auth/login', (req, res) => {
-  console.log('CORS Request received for /api/auth/login');
-
-  res.setHeader('Access-Control-Allow-Origin', allowedOrigins.join(', '));
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-
-  res.json({ message: 'Login successful' });
-});
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
