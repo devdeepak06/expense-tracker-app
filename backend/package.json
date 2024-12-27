@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "nodemon app.js",
     "start": "node app.js",
-    "build": "npm run build"
+    "build": "node --version && echo 'Build completed!'",
+    "vercel-build": "npm run build"
   },
   "dependencies": {
     "axios": "^1.3.5",
