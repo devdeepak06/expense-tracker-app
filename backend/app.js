@@ -4,22 +4,21 @@ import { connectDB } from "./DB/Database.js";
 import bodyParser from "body-parser";
 import helmet from "helmet";
 import morgan from "morgan";
-import rateLimit from "express-rate-limit";
 import transactionRoutes from "./Routers/Transactions.js";
 import userRoutes from "./Routers/userRouter.js";
 import { config } from "dotenv";
-
 config();
+
 const app = express();
 const port = process.env.PORT;
+
 connectDB();
 
+// Define allowed origins
 const allowedOrigins = [
+  "http://localhost:3001",
   "https://expense-tracker-app-pied-zeta.vercel.app"
 ];
-
-// Trust proxy to handle X-Forwarded-For header
-app.enable("trust proxy");
 
 // CORS configuration
 app.use(express.json());
@@ -28,7 +27,6 @@ app.use(
     origin: allowedOrigins,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
@@ -37,15 +35,6 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
-// Rate limiting configuration
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
-  standardHeaders: true,
-  legacyHeaders: false,
-});
-app.use(limiter);
 
 // Routers
 app.use("/api/v1", transactionRoutes);

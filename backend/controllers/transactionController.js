@@ -2,26 +2,66 @@ import Transaction from "../models/TransactionModel.js";
 import User from "../models/UserSchema.js";
 import moment from "moment";
 
-export const addTransactionController = async (req, res, next) => {
+export const addTransactionController = async (req, res) => {
   try {
-    const { title, amount, category, description, transactionType, date } = req.body;
+    const {
+      title,
+      amount,
+      description,
+      date,
+      category,
+      userId,
+      transactionType,
+    } = req.body;
 
-    if (!title || !amount || !category || !description || !transactionType || !date) {
-      return res.status(400).json({
+    // console.log(title, amount, description, date, category, userId, transactionType);
+
+    if (
+      !title ||
+      !amount ||
+      !description ||
+      !date ||
+      !category ||
+      !transactionType
+    ) {
+      return res.status(408).json({
         success: false,
-        message: "All fields are required",
+        messages: "Please Fill all fields",
       });
     }
 
-    const transaction = await Transaction.create({ title, amount, category, description, transactionType, date, user: req.user.id });
+    const user = await User.findById(userId);
 
-    return res.status(201).json({
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    let newTransaction = await Transaction.create({
+      title: title,
+      amount: amount,
+      category: category,
+      description: description,
+      date: date,
+      user: userId,
+      transactionType: transactionType,
+    });
+
+    user.transactions.push(newTransaction);
+
+    user.save();
+
+    return res.status(200).json({
       success: true,
-      message: "Transaction added successfully",
-      transaction,
+      message: "Transaction Added Successfully",
     });
   } catch (err) {
-    next(err);
+    return res.status(401).json({
+      success: false,
+      messages: err.message,
+    });
   }
 };
 
