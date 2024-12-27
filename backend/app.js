@@ -13,8 +13,7 @@ const app = express();
 const port = process.env.PORT;
 connectDB();
 const allowedOrigins = [
-  "http://localhost:3000",
-  "https://expense-tracker-app-jade.vercel.app"
+  "https://expense-tracker-app-pied-zeta.vercel.app"
 ];
 
 app.use(express.json());

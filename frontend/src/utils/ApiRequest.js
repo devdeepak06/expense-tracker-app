@@ -1,5 +1,5 @@
 // frontend/utils/ApiRequest.js
-const host = "https://expense-tracker-app-cz11.vercel.app";
+const host = "https://expense-tracker-api-five.vercel.app";
 export const setAvatarAPI = `${host}/api/auth/setAvatar`;
 export const registerAPI = `${host}/api/auth/register`;
 export const loginAPI = `${host}/api/auth/login`;
