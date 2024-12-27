@@ -11,5 +11,11 @@
       "src": "/(.*)",
       "dest": "app.js"
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/auth/login",
+      "destination": "https://expense-tracker-app-gurd.vercel.app/api/auth/login"
+    }
   ]
 }
