@@ -1,13 +1,11 @@
 import mongoose from "mongoose";
-
+import { config } from "dotenv";
+config();
 export const connectDB = async () => {
-    // const db = process.env.MONGO_URL;
-    const db = 'mongodb+srv://kdeepak2217:FyugB0N6kX0E0Rhh@cluster0.z8vws.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
-
+    const db = process.env.MONGO_URL;
     if (!db) {
         throw new Error("MONGO_URL is not defined in the environment variables");
     }
-
     try {
         const { connection } = await mongoose.connect(db, {
             useNewUrlParser: true,

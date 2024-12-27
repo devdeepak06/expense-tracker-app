@@ -2,66 +2,26 @@ import Transaction from "../models/TransactionModel.js";
 import User from "../models/UserSchema.js";
 import moment from "moment";
 
-export const addTransactionController = async (req, res) => {
+export const addTransactionController = async (req, res, next) => {
   try {
-    const {
-      title,
-      amount,
-      description,
-      date,
-      category,
-      userId,
-      transactionType,
-    } = req.body;
+    const { title, amount, category, description, transactionType, date } = req.body;
 
-    // console.log(title, amount, description, date, category, userId, transactionType);
-
-    if (
-      !title ||
-      !amount ||
-      !description ||
-      !date ||
-      !category ||
-      !transactionType
-    ) {
-      return res.status(408).json({
-        success: false,
-        messages: "Please Fill all fields",
-      });
-    }
-
-    const user = await User.findById(userId);
-
-    if (!user) {
+    if (!title || !amount || !category || !description || !transactionType || !date) {
       return res.status(400).json({
         success: false,
-        message: "User not found",
+        message: "All fields are required",
       });
     }
 
-    let newTransaction = await Transaction.create({
-      title: title,
-      amount: amount,
-      category: category,
-      description: description,
-      date: date,
-      user: userId,
-      transactionType: transactionType,
-    });
+    const transaction = await Transaction.create({ title, amount, category, description, transactionType, date, user: req.user.id });
 
-    user.transactions.push(newTransaction);
-
-    user.save();
-
-    return res.status(200).json({
+    return res.status(201).json({
       success: true,
-      message: "Transaction Added Successfully",
+      message: "Transaction added successfully",
+      transaction,
     });
   } catch (err) {
-    return res.status(401).json({
-      success: false,
-      messages: err.message,
-    });
+    next(err);
   }
 };
 

@@ -1,3 +1,4 @@
+// controllers/userController.js
 import User from "../models/UserSchema.js";
 import bcrypt from "bcrypt";
 
