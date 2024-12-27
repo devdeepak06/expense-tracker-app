@@ -154,7 +154,7 @@ const Home = () => {
           endDate: endDate,
           type: type,
         });
-        console.log(data);
+        // console.log(data);
   
         setTransactions(data.transactions);
   
