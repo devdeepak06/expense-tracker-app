@@ -1,4 +1,3 @@
-// backend/app.js
 import express from "express";
 import cors from "cors";
 import { connectDB } from "./DB/Database.js";
@@ -7,13 +6,19 @@ import helmet from "helmet";
 import morgan from "morgan";
 import transactionRoutes from "./Routers/Transactions.js";
 import userRoutes from "./Routers/userRouter.js";
+
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
+
+// Connect to the database
 connectDB();
+
+// Allowed origins for CORS
 const allowedOrigins = [
-  "https://expense-tracker-app-jade.vercel.app",
-  // add more origins as needed
+  "http://localhost:3000", // Local development
+  "https://expense-tracker-app-jade.vercel.app" // Production
 ];
+
 // Middleware
 app.use(express.json());
 app.use(
@@ -29,17 +34,21 @@ app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// Router
+// Routers
 app.use("/api/v1", transactionRoutes);
 app.use("/api/auth", userRoutes);
 
+// Default Route
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
-app.get("https://expense-tracker-app-cz11.vercel.app/", (req, res) => {
-  res.send("Hello World!");
-});
 
-app.listen(port, () => {
-  console.log(`Server is listening on http://localhost:${port}`);
-});
+// Start the server (for local development)
+if (process.env.NODE_ENV !== "production") {
+  app.listen(port, () => {
+    console.log(`Server is listening on http://localhost:${port}`);
+  });
+}
+
+// Export the app for Vercel
+export default app;
