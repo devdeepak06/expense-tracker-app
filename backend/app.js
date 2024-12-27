@@ -16,7 +16,7 @@ connectDB();
 const allowedOrigins = [
   "https://expense-tracker-app-pied-zeta.vercel.app"
 ];
-
+app.enable("trust proxy");
 app.use(express.json());
 app.use(
   cors({
